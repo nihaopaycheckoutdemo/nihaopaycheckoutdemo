@@ -64,8 +64,9 @@
   }
 
   /* Sheet */
-  main.wrap { padding-top: 4px; padding-bottom: 32px; flex: 1; }
+  main.wrap { padding-top: 4px; padding-bottom: 32px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
   .sheet {
+    width: 100%;
     background: var(--sheet);
     border-radius: 18px;
     overflow: hidden;
@@ -189,29 +190,13 @@
   .assurance p { margin: 0; }
   .assurance p + p { margin-top: 4px; }
 
-  /* Fixed NihaoPay footer */
-  body { padding-bottom: 56px; }
-  .np-footer {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
-    height: 56px; background: var(--ink); color: #fff;
-    border-top: 2px solid var(--nihao-red);
-    box-shadow: 0 -8px 24px -12px rgba(23,29,27,.35);
-  }
-  .np-footer .wrap { height: 100%; display: flex; align-items: center; gap: 18px; }
-  .np-footer-brand { display: inline-flex; align-items: center; gap: 10px; }
-  .np-footer-brand svg { width: 22px; height: 22px; }
-  .np-footer-word { font-weight: 600; font-size: 18px; letter-spacing: -0.02em; line-height: 1; }
-  .np-footer-word sup { font-size: 9px; font-weight: 500; vertical-align: top; position: relative; top: 1px; margin-left: 2px; color: rgba(255,255,255,.7); }
-  .np-footer-rule { width: 1px; height: 22px; background: rgba(255,255,255,.18); }
-  .np-footer-preview { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.62); letter-spacing: 0.01em; }
-  @media (max-width: 640px) { .np-footer-preview, .np-footer-rule { display: none; } }
-
   @media (max-width: 1000px) {
     .items-col { padding: 24px 24px; }
     .summary { padding: 24px 22px; }
   }
   @media (max-width: 700px) {
     .sheet { grid-template-columns: 1fr; }
+    main.wrap { justify-content: flex-start; }
     .summary-inner { position: static; }
     .cart-title { font-size: 32px; }
   }
@@ -396,17 +381,6 @@
     </aside>
   </div>
 </main>
-
-<footer class="np-footer" aria-label="NihaoPay">
-  <div class="wrap">
-    <span class="np-footer-brand">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5A9.5 9.5 0 0 1 21.5 12v9.5H12A9.5 9.5 0 0 1 12 2.5Z" fill="none" stroke="#ce2224" stroke-width="2.6" stroke-linejoin="round"/></svg>
-      <span class="np-footer-word">nihaopay<sup>&reg;</sup></span>
-    </span>
-    <span class="np-footer-rule" aria-hidden="true"></span>
-    <span class="np-footer-preview">Online Checkout Experience Preview</span>
-  </div>
-</footer>
 
 <script>
   (function () {
