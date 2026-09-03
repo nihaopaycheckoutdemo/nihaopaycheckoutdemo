@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your cart – Tidewater Skin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ground: #eceee9;
+    --sheet: #ffffff;
+    --panel: #e3e9e1;
+    --panel-line: #cfd8cc;
+    --ink: #171d1b;
+    --muted: #5e6862;
+    --line: #e4e7e1;
+    --moss: #2f4a3a;
+    --moss-soft: #dfe8e0;
+    --stripe: #0066f0;
+    --stripe-hover: #0057cc;
+    --nihao-red: #ce2224;
+    --nihao-red-deep: #b21b1d;
+    --radius: 8px;
+    --sans: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--ground);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+  a { color: var(--moss); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; }
+  button { font: inherit; }
+
+  /* Header */
+  .site-header { padding: 0; }
+  .site-header .wrap {
+    display: flex; align-items: center; justify-content: space-between; height: 56px;
+  }
+  .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .brand {
+    font-family: var(--serif); font-weight: 400; font-size: 26px; letter-spacing: -0.01em;
+    color: var(--ink); line-height: 1;
+  }
+  .brand:hover { text-decoration: none; }
+  .site-nav { display: flex; gap: 30px; align-items: center; }
+  .site-nav a { color: var(--ink); font-weight: 500; font-size: 15px; }
+  .site-nav a[aria-current] { display: inline-flex; align-items: center; gap: 8px; }
+  .count-pill {
+    display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 7px;
+    border-radius: 11px; background: var(--moss); color: #fff; font-size: 12px; font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Sheet */
+  main.wrap { padding-top: 4px; padding-bottom: 32px; flex: 1; }
+  .sheet {
+    background: var(--sheet);
+    border-radius: 18px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+    align-items: start;
+    box-shadow: 0 1px 2px rgba(23,29,27,.04), 0 12px 40px -24px rgba(23,29,27,.18);
+  }
+  .items-col { padding: 28px 36px 28px; }
+  .cart-head { display: flex; align-items: baseline; gap: 14px; margin: 0 0 16px; }
+  .cart-title {
+    margin: 0;
+    font-family: var(--serif); font-weight: 300; font-size: 36px; line-height: 1.05;
+    letter-spacing: -0.015em;
+  }
+  .cart-sub { margin: 0; color: var(--muted); font-size: 14px; }
+
+  /* Line items */
+  .items { list-style: none; margin: 0; padding: 0; }
+  .item {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr) auto;
+    gap: 18px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+  .item:last-child { border-bottom: 1px solid var(--line); }
+  .thumb {
+    width: 80px; height: 80px; border-radius: 8px;
+    display: grid; place-items: center;
+    box-shadow: inset 0 0 0 1px rgba(23,29,27,.04);
+  }
+  .thumb svg { width: 80px; height: 80px; display: block; }
+  .item-name { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -0.005em; }
+  .item-meta { margin: 1px 0 8px; color: var(--muted); font-size: 13px; }
+  .item-actions { display: flex; align-items: center; gap: 18px; }
+  .qty {
+    display: inline-flex; align-items: center;
+    border: 1px solid var(--panel-line); border-radius: 999px; background: #fff; height: 32px; padding: 0 2px;
+  }
+  .qty button {
+    width: 28px; height: 28px; border: 0; background: none; color: var(--ink);
+    cursor: pointer; font-size: 18px; line-height: 1; border-radius: 50%;
+  }
+  .qty button:hover { background: var(--ground); }
+  .qty output { min-width: 28px; text-align: center; font-weight: 500; font-variant-numeric: tabular-nums; font-size: 15px; }
+  .remove { background: none; border: 0; padding: 0; color: var(--muted); cursor: pointer; font-size: 14px; }
+  .remove:hover { color: var(--nihao-red-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .item-price { font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; padding-top: 0; font-size: 16px; }
+  .item-price small { display: block; font-weight: 400; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .continue { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; font-weight: 500; font-size: 14px; }
+  .continue svg { width: 14px; height: 14px; }
+  .cart-empty { padding: 40px 0; color: var(--muted); display: none; border-top: 1px solid var(--line); }
+  .sheet.is-empty .cart-empty { display: block; }
+  .sheet.is-empty .items, .sheet.is-empty .continue { display: none; }
+
+  /* Summary panel */
+  .summary {
+    background: var(--panel);
+    padding: 28px 28px 28px;
+    align-self: stretch;
+  }
+  .summary-inner { position: sticky; top: 12px; }
+  .summary h2 {
+    margin: 0 0 12px; font-family: var(--serif); font-weight: 400; font-size: 24px; line-height: 1.1; letter-spacing: -0.01em;
+  }
+  .totals { margin: 0; }
+  .totals div { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 0; font-variant-numeric: tabular-nums; }
+  .totals dt { color: var(--muted); }
+  .totals dd { margin: 0; font-weight: 500; }
+  .totals .grand { border-top: 1px solid var(--panel-line); margin-top: 8px; padding-top: 10px; }
+  .totals .grand dt { color: var(--ink); font-weight: 600; }
+  .totals .grand dd { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+  .ship-note {
+    margin: 4px 0 0; font-size: 13px; color: var(--moss); display: flex; align-items: center; gap: 6px;
+  }
+  .ship-note svg { width: 14px; height: 14px; }
+
+  /* Payment stack */
+  .pay-stack { margin-top: 18px; }
+  .pay-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; height: 52px; padding: 0 16px;
+    border-radius: var(--radius); border: 0; cursor: pointer;
+    font-weight: 600; font-size: 16px;
+    transition: background-color .15s ease, box-shadow .15s ease, transform .08s ease;
+  }
+  .pay-btn:active { transform: scale(.985); }
+  .pay-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  .btn-stripe { background: var(--stripe); color: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .btn-stripe:hover { background: var(--stripe-hover); }
+  .powered { margin: 10px 0 0; text-align: center; font-size: 13px; color: var(--muted); }
+  .powered b { font-weight: 600; color: #425466; }
+
+  .or {
+    display: flex; align-items: center; gap: 12px;
+    margin: 14px 0 12px; color: var(--muted); font-size: 13px;
+  }
+  .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--panel-line); }
+
+  .btn-nihao {
+    background: #fff; color: var(--ink);
+    border: 1.5px solid var(--nihao-red);
+    justify-content: space-between; gap: 10px; padding: 0 12px 0 14px; white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(206,34,36,.08);
+  }
+  .btn-nihao:hover, .btn-nihao:focus-visible { background: var(--nihao-red); color: #fff; }
+  .btn-nihao:hover .np-drop, .btn-nihao:focus-visible .np-drop { color: #fff !important; }
+  .btn-nihao:hover .np-pay, .btn-nihao:focus-visible .np-pay { color: rgba(255,255,255,.85); }
+  .np-left { display: inline-flex; align-items: center; gap: 9px; }
+  .np-drop { width: 21px; height: 21px; flex: none; }
+  .np-word { font-weight: 600; letter-spacing: -0.02em; font-size: 17px; }
+  .np-pay { font-weight: 400; color: var(--muted); }
+  .np-methods { display: inline-flex; gap: 4px; }
+  .np-methods img { width: 36px; height: 25px; display: block; border-radius: 3px; }
+
+  .assurance {
+    margin: 18px 0 0; padding-top: 14px; border-top: 1px solid var(--panel-line); font-size: 12.5px; color: var(--muted); line-height: 1.5;
+  }
+  .assurance p { margin: 0; }
+  .assurance p + p { margin-top: 4px; }
+
+  /* Fixed NihaoPay footer */
+  body { padding-bottom: 56px; }
+  .np-footer {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+    height: 56px; background: var(--ink); color: #fff;
+    border-top: 2px solid var(--nihao-red);
+    box-shadow: 0 -8px 24px -12px rgba(23,29,27,.35);
+  }
+  .np-footer .wrap { height: 100%; display: flex; align-items: center; gap: 18px; }
+  .np-footer-brand { display: inline-flex; align-items: center; gap: 10px; }
+  .np-footer-brand svg { width: 22px; height: 22px; }
+  .np-footer-word { font-weight: 600; font-size: 18px; letter-spacing: -0.02em; line-height: 1; }
+  .np-footer-word sup { font-size: 9px; font-weight: 500; vertical-align: top; position: relative; top: 1px; margin-left: 2px; color: rgba(255,255,255,.7); }
+  .np-footer-rule { width: 1px; height: 22px; background: rgba(255,255,255,.18); }
+  .np-footer-preview { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.62); letter-spacing: 0.01em; }
+  @media (max-width: 640px) { .np-footer-preview, .np-footer-rule { display: none; } }
+
+  @media (max-width: 1000px) {
+    .items-col { padding: 24px 24px; }
+    .summary { padding: 24px 22px; }
+  }
+  @media (max-width: 700px) {
+    .sheet { grid-template-columns: 1fr; }
+    .summary-inner { position: static; }
+    .cart-title { font-size: 32px; }
+  }
+  @media (max-width: 480px) {
+    .item { grid-template-columns: 84px minmax(0, 1fr); gap: 16px; }
+    .thumb, .thumb svg { width: 84px; height: 84px; }
+    .item-price { grid-column: 2; text-align: left; padding-top: 0; }
+    .item-price small { display: inline; margin-left: 6px; }
+    .site-nav { gap: 18px; }
+    .brand { font-size: 23px; }
+    .btn-nihao { padding: 0 10px; }
+    .np-methods img { width: 30px; height: 21px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pay-btn { transition: none; }
+    .pay-btn:active { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#">Tidewater Skin</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="#">Shop</a>
+      <a href="#">Journal</a>
+      <a href="#" aria-current="page">Cart <span class="count-pill" id="nav-count">3</span></a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="sheet" id="cart">
+    <section class="items-col" aria-labelledby="cart-heading">
+      <div class="cart-head">
+        <h1 class="cart-title" id="cart-heading">Your cart</h1>
+        <p class="cart-sub" id="title-count">3 items</p>
+      </div>
+
+      <ul class="items" id="items">
+
+        <li class="item" data-price="48">
+          <div class="thumb" style="background:#f2e6d8" aria-hidden="true">
+            <svg viewBox="0 0 112 112" fill="none">
+              <defs>
+                <linearGradient id="amber" x1="0" x2="1">
+                  <stop offset="0" stop-color="#d98a3a"/><stop offset=".55" stop-color="#e9a556"/><stop offset="1" stop-color="#c77a2f"/>
+                </linearGradient>
+              </defs>
+              <ellipse cx="56" cy="97" rx="24" ry="4" fill="rgba(23,29,27,.10)"/>
+              <rect x="48" y="14" width="16" height="12" rx="2" fill="#171d1b"/>
+              <rect x="51" y="26" width="10" height="9" fill="#b98a5a"/>
+              <path d="M40 40c0-4 3-6 7-6h18c4 0 7 2 7 6v48a7 7 0 0 1-7 7H47a7 7 0 0 1-7-7V40Z" fill="url(#amber)"/>
+              <rect x="44" y="34" width="4" height="55" rx="2" fill="rgba(255,255,255,.35)"/>
+              <rect x="46" y="50" width="20" height="24" rx="1.5" fill="#fbf4ea"/>
+              <rect x="50" y="56" width="12" height="2" fill="#171d1b"/>
+              <rect x="50" y="61" width="8" height="1.5" fill="#8a8f8b"/>
+              <rect x="50" y="65" width="10" height="1.5" fill="#8a8f8b"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="item-name">Vitamin C brightening serum</h3>
+            <p class="item-meta">30 ml</p>
+            <div class="item-actions">
+              <div class="qty" role="group" aria-label="Quantity">
+                <button type="button" data-step="-1" aria-label="Decrease quantity">−</button>
+                <output aria-live="polite">1</output>
+                <button type="button" data-step="1" aria-label="Increase quantity">+</button>
+              </div>
+              <button type="button" class="remove">Remove</button>
+            </div>
+          </div>
+          <div class="item-price"><span class="line-total">$48.00</span><small>$48.00 each</small></div>
+        </li>
+
+        <li class="item" data-price="38">
+          <div class="thumb" style="background:#e2eae2" aria-hidden="true">
+            <svg viewBox="0 0 112 112" fill="none">
+              <ellipse cx="56" cy="96" rx="28" ry="4" fill="rgba(23,29,27,.10)"/>
+              <rect x="30" y="46" width="52" height="46" rx="9" fill="#fbfbf8"/>
+              <rect x="30" y="46" width="6" height="46" rx="3" fill="rgba(23,29,27,.05)"/>
+              <rect x="28" y="30" width="56" height="20" rx="6" fill="#2f4a3a"/>
+              <rect x="28" y="30" width="56" height="4" rx="2" fill="rgba(255,255,255,.15)"/>
+              <rect x="40" y="60" width="32" height="20" rx="1.5" fill="#eef1ec"/>
+              <rect x="45" y="65" width="22" height="2" fill="#171d1b"/>
+              <rect x="45" y="70" width="14" height="1.5" fill="#8a8f8b"/>
+              <rect x="45" y="74" width="18" height="1.5" fill="#8a8f8b"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="item-name">Ceramide barrier cream</h3>
+            <p class="item-meta">50 ml</p>
+            <div class="item-actions">
+              <div class="qty" role="group" aria-label="Quantity">
+                <button type="button" data-step="-1" aria-label="Decrease quantity">−</button>
+                <output aria-live="polite">1</output>
+                <button type="button" data-step="1" aria-label="Increase quantity">+</button>
+              </div>
+              <button type="button" class="remove">Remove</button>
+            </div>
+          </div>
+          <div class="item-price"><span class="line-total">$38.00</span><small>$38.00 each</small></div>
+        </li>
+
+        <li class="item" data-price="45">
+          <div class="thumb" style="background:#dde7ee" aria-hidden="true">
+            <svg viewBox="0 0 112 112" fill="none">
+              <ellipse cx="56" cy="98" rx="20" ry="4" fill="rgba(23,29,27,.10)"/>
+              <rect x="46" y="12" width="20" height="10" rx="2" fill="#171d1b"/>
+              <path d="M40 30c0-4 3-8 8-8h16c5 0 8 4 8 8v56c0 6-4 10-10 10H50c-6 0-10-4-10-10V30Z" fill="#fbfbf8"/>
+              <rect x="40" y="22" width="32" height="10" fill="#4f86ad"/>
+              <rect x="40" y="22" width="32" height="10" rx="0" fill="#4f86ad"/>
+              <rect x="42" y="22" width="4" height="66" rx="2" fill="rgba(23,29,27,.05)"/>
+              <rect x="45" y="46" width="22" height="26" rx="1.5" fill="#e8eff4"/>
+              <text x="56" y="60" font-family="Figtree, sans-serif" font-size="9" font-weight="600" fill="#171d1b" text-anchor="middle">SPF</text>
+              <text x="56" y="69" font-family="Figtree, sans-serif" font-size="9" font-weight="600" fill="#4f86ad" text-anchor="middle">50</text>
+            </svg>
+          </div>
+          <div>
+            <h3 class="item-name">Mineral sunscreen SPF 50</h3>
+            <p class="item-meta">60 ml</p>
+            <div class="item-actions">
+              <div class="qty" role="group" aria-label="Quantity">
+                <button type="button" data-step="-1" aria-label="Decrease quantity">−</button>
+                <output aria-live="polite">1</output>
+                <button type="button" data-step="1" aria-label="Increase quantity">+</button>
+              </div>
+              <button type="button" class="remove">Remove</button>
+            </div>
+          </div>
+          <div class="item-price"><span class="line-total">$45.00</span><small>$45.00 each</small></div>
+        </li>
+
+      </ul>
+      <p class="cart-empty">Your cart is empty. <a href="#">Back to the shop</a> to add something.</p>
+      <a class="continue" href="#">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Continue shopping
+      </a>
+    </section>
+
+    <aside class="summary" aria-labelledby="summary-heading">
+     <div class="summary-inner">
+      <h2 id="summary-heading">Order summary</h2>
+      <dl class="totals">
+        <div><dt>Subtotal</dt><dd id="subtotal">$131.00</dd></div>
+        <div><dt>Shipping</dt><dd id="shipping">Free</dd></div>
+        <div class="grand"><dt>Total</dt><dd id="total">$131.00</dd></div>
+      </dl>
+      <p class="ship-note">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Free shipping on orders over $60
+      </p>
+
+      <div class="pay-stack">
+        <button type="button" class="pay-btn btn-stripe" id="btn-stripe">Checkout</button>
+        <p class="powered">Powered by <b>stripe</b></p>
+
+        <div class="or" aria-hidden="true">or pay with</div>
+
+        <button type="button" class="pay-btn btn-nihao" id="btn-nihao" aria-label="Pay with NihaoPay using WeChat Pay, Alipay, or UnionPay">
+          <span class="np-left">
+            <svg class="np-drop" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--nihao-red)">
+              <path d="M12 2.5A9.5 9.5 0 0 1 21.5 12v9.5H12A9.5 9.5 0 0 1 12 2.5Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/>
+            </svg>
+            <span><span class="np-pay">Pay with</span> <span class="np-word">nihaopay</span></span>
+          </span>
+          <span class="np-methods" aria-hidden="true">
+            <img src="assets/logos/wechat.avif" alt="" width="70" height="48">
+            <img src="assets/logos/alipay.avif" alt="" width="70" height="48">
+            <img src="assets/logos/unionpay.avif" alt="" width="70" height="48">
+          </span>
+        </button>
+      </div>
+
+      <div class="assurance">
+        <p>Secure checkout. Free returns within 30 days.</p>
+        <p>Ships from Oakland, California.</p>
+      </div>
+     </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="np-footer" aria-label="NihaoPay">
+  <div class="wrap">
+    <span class="np-footer-brand">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5A9.5 9.5 0 0 1 21.5 12v9.5H12A9.5 9.5 0 0 1 12 2.5Z" fill="none" stroke="#ce2224" stroke-width="2.6" stroke-linejoin="round"/></svg>
+      <span class="np-footer-word">nihaopay<sup>&reg;</sup></span>
+    </span>
+    <span class="np-footer-rule" aria-hidden="true"></span>
+    <span class="np-footer-preview">Online Checkout Experience Preview</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var cart = document.getElementById('cart');
+    var items = document.getElementById('items');
+
+    function money(n) { return '$' + n.toFixed(2); }
+
+    function recalc() {
+      var rows = items.querySelectorAll('.item');
+      var subtotal = 0, count = 0;
+      rows.forEach(function (row) {
+        var price = Number(row.dataset.price);
+        var qty = Number(row.querySelector('output').textContent);
+        row.querySelector('.line-total').textContent = money(price * qty);
+        subtotal += price * qty;
+        count += qty;
+      });
+      document.getElementById('subtotal').textContent = money(subtotal);
+      document.getElementById('total').textContent = money(subtotal);
+      document.getElementById('nav-count').textContent = count;
+      document.getElementById('title-count').textContent = count === 1 ? '1 item' : count + ' items';
+      var empty = rows.length === 0;
+      cart.classList.toggle('is-empty', empty);
+      document.getElementById('btn-stripe').disabled = empty;
+      document.getElementById('btn-nihao').disabled = empty;
+    }
+
+    items.addEventListener('click', function (e) {
+      var step = e.target.closest('[data-step]');
+      if (step) {
+        var out = step.parentElement.querySelector('output');
+        out.textContent = Math.max(1, Number(out.textContent) + Number(step.dataset.step));
+        recalc();
+        return;
+      }
+      if (e.target.closest('.remove')) {
+        e.target.closest('.item').remove();
+        recalc();
+      }
+    });
+
+    recalc();
+  })();
+</script>
+</body>
+</html>
